@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_07_02_215325) do
+ActiveRecord::Schema[8.0].define(version: 2024_07_02_220139) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -42,6 +42,36 @@ ActiveRecord::Schema[8.0].define(version: 2024_07_02_215325) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "sentences", force: :cascade do |t|
+    t.text "content"
+    t.bigint "situation_id", null: false
+    t.text "translation"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["situation_id"], name: "index_sentences_on_situation_id"
+  end
+
+  create_table "situations", force: :cascade do |t|
+    t.string "title"
+    t.text "description"
+    t.integer "difficulty_level"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "words", force: :cascade do |t|
+    t.string "content"
+    t.string "reading_hiragana"
+    t.string "reading_romaji"
+    t.string "translation"
+    t.bigint "sentence_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["sentence_id"], name: "index_words_on_sentence_id"
+  end
+
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "sentences", "situations"
+  add_foreign_key "words", "sentences"
 end
