@@ -1,0 +1,6 @@
+<%= turbo_frame_tag "new_situation" do %>
+  <div class="mb-4 bg-white shadow-md rounded px-8 pt-6 pb-8">
+    <h2 class="text-2xl font-bold mb-4">New Situation</h2>
+    <%= render "form", situation: @situation %>
+  </div>
+<% end %>

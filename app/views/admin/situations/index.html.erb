@@ -1,0 +1,22 @@
+<div class="container mx-auto px-4 py-8">
+  <div class="flex justify-between items-center mb-6">
+    <h1 class="text-3xl font-bold">Admin: Situations</h1>
+    <%= link_to "New Situation", new_admin_situation_path, class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded", data: { turbo_frame: "new_situation" } %>
+  </div>
+
+  <div id="notice" class="mb-4 text-green-600"><%= notice %></div>
+
+  <%= turbo_frame_tag "new_situation" %>
+
+  <div class="bg-white shadow-md rounded-lg overflow-hidden">
+    <div class="grid grid-cols-4 gap-4 px-6 py-3 bg-gray-50 font-medium text-gray-500 uppercase tracking-wider">
+      <div>Title</div>
+      <div>Description</div>
+      <div>Difficulty</div>
+      <div>Actions</div>
+    </div>
+    <div id="situations">
+      <%= render @situations %>
+    </div>
+  </div>
+</div>
