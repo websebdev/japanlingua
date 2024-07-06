@@ -13,6 +13,8 @@ Rails.application.routes.draw do
   root "home#index"
 
   namespace :admin do
-    resources :situations
+    resources :situations do
+      resources :sentences, only: [ :create, :destroy ], module: :situations
+    end
   end
 end

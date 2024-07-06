@@ -1,9 +1,36 @@
-<%= turbo_frame_tag @situation do %>
-  <div class="px-6 py-4 border-b border-gray-200">
-    <div class="bg-white shadow-md rounded px-8 pt-6 pb-8">
+<div class="px-6 py-4 border-b border-gray-200">
+  <div class="rounded px-8 pt-6 pb-8">
+    <div class="mb-4 bg-white shadow-md rounded px-8 pt-6 pb-8">
       <h2 class="text-2xl font-bold mb-4">Edit Situation</h2>
       <%= render "form", situation: @situation %>
-      <%= link_to "Cancel", admin_situation_path(@situation), class: "text-blue-500 hover:text-blue-700" %>
     </div>
+    <div class="mb-4 bg-white shadow-md rounded px-8 pt-6 pb-8">
+      <h2 class="text-2xl font-bold mb-4">Sentences</h2>
+      <div>
+        <%= form_with(model: [:admin, @situation, @situation.sentences.build], local: true) do |form| %>
+          <div class="mb-4">
+            <%= form.label :content, class: "block text-gray-700 text-sm font-bold mb-2" %>
+            <%= form.text_field :content, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+          </div>
+          <div class="mb-4">
+            <%= form.label :translation, class: "block text-gray-700 text-sm font-bold mb-2" %>
+            <%= form.text_field :translation, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+          </div>
+          <div class="flex items-center justify-between">
+            <%= form.submit "Add Sentence", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+          </div>
+        <% end %>
+      </div>
+      <div>
+        <% @situation.sentences.each do |sentence| %>
+          <% next unless sentence.persisted?%>
+          <div class="bg-white shadow-md rounded-lg p-4 mb-4">
+            <p><%= sentence.content %></p>
+            <p><%= sentence.translation %></p>
+          </div>
+        <% end %>
+      </div>
+    </div>
+    <%= link_to "Cancel", admin_situations_path, class: "bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border border-gray-400 rounded text-blue-500 hover:text-blue-700" %>
   </div>
-<% end %>
+</div>
