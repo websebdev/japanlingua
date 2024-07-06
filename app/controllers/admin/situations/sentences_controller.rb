@@ -16,7 +16,7 @@ class Admin::Situations::SentencesController < Admin::Situations::BaseController
   private
 
   def sentence_params
-    params.require(:sentence).permit(:content)
+    params.require(:sentence).permit(:content, :audio, :character_id)
   end
 
   def set_sentence

@@ -1,0 +1,5 @@
+<% @situations.each do |situation| %>
+  <div>
+    <%= link_to situation.title, situation_path(situation) %>
+  </div>
+<% end %>

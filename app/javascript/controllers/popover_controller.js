@@ -5,7 +5,6 @@ export default class extends Controller {
 
   connect() {
     this.hidePopovers();
-    console.log("popover controller connected");
     document.addEventListener("click", this.handleClickOutside.bind(this));
   }
 

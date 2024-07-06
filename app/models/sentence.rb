@@ -1,4 +1,9 @@
 class Sentence < ApplicationRecord
+  CHARACTERS = [
+    { id: 1, name: "武", hiragana_name: "たけし", romaji_name: "Takeshi", avatar: "boy_3.png" },
+    { id: 2, name: "エミリー", hiragana_name: "エミリー", romaji_name: "Emily", avatar: "girl_5.png" }
+  ]
+
   belongs_to :situation
   has_many :words, dependent: :destroy
   has_one_attached :audio
@@ -20,5 +25,9 @@ class Sentence < ApplicationRecord
       )
     end
     save!
+  end
+
+  def character
+    OpenStruct.new(CHARACTERS.find { |character| character[:id] == character_id })
   end
 end

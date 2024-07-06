@@ -12,6 +12,8 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
+  resources :situations, only: [ :index, :show ]
+
   namespace :admin do
     resources :situations do
       resources :sentences, only: [ :create, :destroy ], module: :situations

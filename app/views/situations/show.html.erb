@@ -1,0 +1,110 @@
+<div class="container mx-auto px-4 py-8">
+  <nav aria-label="Breadcrumb" class="mb-6">
+    <ol class="flex items-center space-x-2">
+      <li>
+        <%= link_to "Situations", situations_path, class: "text-blue-500 hover:underline" %>
+      </li>
+      <li>
+        <span aria-current="page" class="text-gray-500"><%= @situation.title %></span>
+      </li>
+    </ol>
+  </nav>
+
+  <div class="bg-white shadow-md rounded-lg p-6" data-controller="audio">
+    <div class="flex items-center justify-between mb-6">
+      <div>
+        <button
+          data-action="click->audio#playAll"
+          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-4"
+        >
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 5v14l11-7L8 5z" fill="currentColor" />
+          </svg>
+          Play All
+        </button>
+        <nav class="inline-flex rounded-md shadow-sm" aria-label="Pagination">
+          <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+            <span class="sr-only">Previous</span>
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
+            </svg>
+          </a>
+          <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+            <span class="sr-only">Next</span>
+            <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
+              <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
+            </svg>
+          </a>
+        </nav>
+      </div>
+    </div>
+
+    <div>
+      <% @situation.sentences.each do |sentence| %>
+        <div class="bg-gray-100 rounded-lg p-4 mb-4" data-controller="popover">
+          <div class="flex items-center justify-between mb-2">
+            <div class="flex items-center flex-1">
+              <%= image_tag "boy_3.png", class: "w-8 h-8 rounded-full mr-2", alt: "Avatar" %>
+              <span class="text-gray-500"><%= sentence.character.hiragana_name %></span>
+            </div>
+            <div>
+              <button
+                data-action="click->audio#playSentence"
+                data-audio-url-param="<%= rails_blob_url(sentence.audio) %>"
+                class="text-gray-800 font-bold rounded-full hover:border-black border-2"
+              >
+                <%= image_tag "icons/play_button.svg" %>
+              </button>
+              <div class="p-2 bg-gray-400 text-gray-800 font-bold rounded-full">
+                <%= audio_tag rails_blob_url sentence.audio %>
+                Play
+              </div>
+            </div>
+          </div>
+          <div class="flex-1">
+            <% sentence.words.each do |word| %>
+              <span
+                data-action="click->popover#togglePopover"
+                data-popover-content-param="<%= word.content %>"
+                class="hover:outline hover:outline-1 m-px p-px"
+              >
+                <%= word.content %>
+              </span>
+            <% end %>
+          </div>
+          <div class="text-gray-600"><%= sentence.translation %></div>
+
+          <% sentence.words.each do |word| %>
+            <div
+              data-popover-target="popover"
+              id="<%= word.content %>"
+              role="tooltip"
+              class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
+            >
+              <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
+                <h3 class="font-semibold text-gray-900 dark:text-white"><%= word.content %> (<%= word.reading_hiragana %>)</h3>
+              </div>
+              <div class="px-3 py-2">
+                <p><%= word.translation %></p>
+                <p class="mt-2"><%= link_to "Add to flashcards", "#", class: "text-blue-500 bg-gray-100 outline p-1" %></p>
+              </div>
+              <div data-popper-arrow></div>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <nav class="flex justify-between items-center mt-6">
+      <div class="flex-1"></div>
+      <div>
+        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+          Previous
+        </a>
+        <a href="#" class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 ml-3">
+          Next
+        </a>
+      </div>
+    </nav>
+  </div>
+</div>

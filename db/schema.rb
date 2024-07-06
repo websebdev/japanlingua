@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_07_02_220139) do
+ActiveRecord::Schema[8.0].define(version: 2024_07_06_064629) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -48,6 +48,7 @@ ActiveRecord::Schema[8.0].define(version: 2024_07_02_220139) do
     t.text "translation"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "character_id"
     t.index ["situation_id"], name: "index_sentences_on_situation_id"
   end
 
