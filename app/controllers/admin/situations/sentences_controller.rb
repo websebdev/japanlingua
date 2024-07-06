@@ -2,7 +2,8 @@ class Admin::Situations::SentencesController < Admin::Situations::BaseController
   before_action :set_sentence, only: [ :destroy ]
 
   def create
-    @sentence = @situation.sentences.create!(sentence_params)
+    @sentence = @situation.sentences.build(sentence_params)
+    @sentence.generate_translation_and_words_using_ai!
 
     redirect_to admin_situation_path(@situation), notice: "Sentence was successfully created."
   end
@@ -15,7 +16,7 @@ class Admin::Situations::SentencesController < Admin::Situations::BaseController
   private
 
   def sentence_params
-    params.require(:sentence).permit(:content, :translation)
+    params.require(:sentence).permit(:content)
   end
 
   def set_sentence
