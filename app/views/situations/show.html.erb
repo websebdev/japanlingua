@@ -22,6 +22,15 @@
           </svg>
           Play All
         </button>
+        <button
+          data-action="click->audio#stopAllAudio"
+          class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-4"
+        >
+          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 6h12v12H6V6z" fill="currentColor" />
+          </svg>
+          Stop All
+        </button>
         <nav class="inline-flex rounded-md shadow-sm" aria-label="Pagination">
           <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
             <span class="sr-only">Previous</span>
@@ -41,7 +50,7 @@
 
     <div>
       <% @situation.sentences.each do |sentence| %>
-        <div class="bg-gray-100 rounded-lg p-4 mb-4" data-controller="popover">
+        <div class="bg-gray-100 rounded-lg p-4 mb-4" data-controller="popover" data-audio-target="sentence">
           <div class="flex items-center justify-between mb-2">
             <div class="flex items-center flex-1">
               <%= image_tag "boy_3.png", class: "w-8 h-8 rounded-full mr-2", alt: "Avatar" %>
@@ -51,14 +60,19 @@
               <button
                 data-action="click->audio#playSentence"
                 data-audio-url-param="<%= rails_blob_url(sentence.audio) %>"
+                data-audio-target="playButton"
                 class="text-gray-800 font-bold rounded-full hover:border-black border-2"
               >
                 <%= image_tag "icons/play_button.svg" %>
               </button>
-              <div class="p-2 bg-gray-400 text-gray-800 font-bold rounded-full">
-                <%= audio_tag rails_blob_url sentence.audio %>
-                Play
-              </div>
+              <button
+                data-action="click->audio#stopAllAudio"
+                data-audio-url-param="<%= rails_blob_url(sentence.audio) %>"
+                data-audio-target="stopButton"
+                class="hidden text-gray-800 font-bold rounded-full hover:border-black border-2"
+              >
+                <%= image_tag "icons/stop_button.svg" %>
+              </button>
             </div>
           </div>
           <div class="flex-1">

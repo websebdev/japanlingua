@@ -1,24 +1,67 @@
 import { Controller } from "@hotwired/stimulus";
 
 export default class extends Controller {
-  playAll(event) {
-    this.playAudio(this.audioUrls);
+  static targets = ["playButton", "stopButton", "sentence"];
+
+  connect() {
+    this.audioPlayers = [];
   }
 
-  playSentence(event) {
-    this.playAudio([event.params.url]);
+  async playAll(event) {
+    this.stopAllAudio();
+    for (let i = 0; i < this.playButtonTargets.length; i++) {
+      const button = this.playButtonTargets[i];
+      await this.playSentence({ currentTarget: button });
+    }
   }
 
-  get audioUrls() {
-    return this.element.querySelectorAll("[data-audio-url-param]").map((btn) =>
-      btn.dataset.audioUrlParam
-    );
+  async playSentence(event) {
+    this.stopAllAudio();
+    const button = event.currentTarget;
+    this.togglePlayStopButtons(button);
+    await this.playAudio(button.dataset.audioUrlParam);
+    this.hideAllStopButtons();
   }
 
-  playAudio(urls) {
-    urls.forEach((url) => {
+  playAudio(url) {
+    return new Promise((resolve) => {
       const audio = new Audio(url);
       audio.play();
+      this.audioPlayers.push(audio);
+      audio.addEventListener("ended", () => {
+        resolve();
+      });
     });
+  }
+
+  stopAllAudio() {
+    this.audioPlayers.forEach((audio) => audio.pause());
+    this.audioPlayers = [];
+    this.hideAllStopButtons();
+  }
+
+  togglePlayStopButtons(button) {
+    const playButton = button.parentElement.querySelector("[data-audio-target='playButton']");
+    const stopButton = button.parentElement.querySelector("[data-audio-target='stopButton']");
+  
+    if (playButton && stopButton) {
+      playButton.classList.toggle("hidden");
+      stopButton.classList.toggle("hidden");
+    }
+  }
+
+  hideAllStopButtons() {
+    this.playButtonTargets.forEach((button) => {
+      this.stopButtonTargets.forEach((stopButton) => stopButton.classList.add("hidden"));
+      this.playButtonTargets.forEach((stopButton) => stopButton.classList.remove("hidden"));
+    });
+  }
+
+  get playButtonTargets() {
+    return this.targets.findAll("playButton");
+  }
+
+  get sentenceTargets() {
+    return this.targets.findAll("sentence");
   }
 }
