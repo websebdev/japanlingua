@@ -9,6 +9,7 @@
       </li>
     </ol>
   </nav>
+  <%= furigana(Word.new(content: "読む", reading_hiragana: "よむ")) %>
 
   <div class="bg-white shadow-md rounded-lg p-6" data-controller="audio">
     <div class="flex items-center justify-between mb-6">
@@ -40,7 +41,7 @@
           <div class="flex items-center justify-between mb-2">
             <div class="flex items-center flex-1">
               <%= image_tag sentence.character.avatar, class: "w-8 h-8 rounded-full mr-2 border-2 border-red-500 p-0.5", alt: "Avatar" %>
-              <span class="text-gray-500"><%= sentence.character.hiragana_name %></span>
+              <span class="text-gray-500"><%= render sentence.character.name_word %></span>
             </div>
             <div>
               <button

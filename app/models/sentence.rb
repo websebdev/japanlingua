@@ -28,6 +28,8 @@ class Sentence < ApplicationRecord
   end
 
   def character
-    OpenStruct.new(CHARACTERS.find { |character| character[:id] == character_id })
+    character = CHARACTERS.find { |character| character[:id] == character_id }
+    character[:name_word] = Word.new(content: character[:name], reading_hiragana: character[:hiragana_name], reading_romaji: character[:romaji_name])
+    OpenStruct.new(character)
   end
 end
