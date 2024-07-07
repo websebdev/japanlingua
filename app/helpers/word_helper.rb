@@ -1,9 +1,11 @@
 module WordHelper
   def furigana(word)
+    return word.content unless cookies[:text_furigana].present?
+
     result = []
     content = word.content
     word.content.chars.map do |char|
-      if char =~ /\p{Han}/
+      if char =~ /\p{Han}/ # if Kanji
         first_part = content.split(char).first.to_s
         second_part = content.split(char).second.to_s
         hiragana = word.reading_hiragana.sub(first_part, "").sub(second_part, "")
