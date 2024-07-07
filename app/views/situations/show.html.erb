@@ -34,9 +34,9 @@
       </div>
     </div>
 
-    <div>
+    <div data-controller="popover">
       <% @situation.sentences.each do |sentence| %>
-        <div class="bg-gray-100 rounded-lg p-4 mb-4" data-controller="popover" data-audio-target="sentence">
+        <div class="bg-gray-100 rounded-lg p-4 mb-4" data-audio-target="sentence">
           <div class="flex items-center justify-between mb-2">
             <div class="flex items-center flex-1">
               <%= image_tag sentence.character.avatar, class: "w-8 h-8 rounded-full mr-2 border-2 border-red-500 p-0.5", alt: "Avatar" %>
@@ -62,35 +62,9 @@
             </div>
           </div>
           <div class="flex-1">
-            <% sentence.words.each do |word| %>
-              <span
-                data-action="click->popover#togglePopover"
-                data-popover-content-param="<%= word.content %>"
-                class="hover:outline hover:outline-1 m-px p-px"
-              >
-                <%= word.content %>
-              </span>
-            <% end %>
+            <%= render sentence.words %>
           </div>
           <div class="text-gray-600"><%= sentence.translation %></div>
-
-          <% sentence.words.each do |word| %>
-            <div
-              data-popover-target="popover"
-              id="<%= word.content %>"
-              role="tooltip"
-              class="absolute z-10 invisible inline-block text-sm text-gray-500 transition-opacity duration-300 bg-white border border-gray-200 rounded-lg shadow-sm opacity-0 dark:text-gray-400 dark:border-gray-600 dark:bg-gray-800"
-            >
-              <div class="px-3 py-2 bg-gray-100 border-b border-gray-200 rounded-t-lg dark:border-gray-600 dark:bg-gray-700">
-                <h3 class="font-semibold text-gray-900 dark:text-white"><%= word.content %> (<%= word.reading_hiragana %>)</h3>
-              </div>
-              <div class="px-3 py-2">
-                <p><%= word.translation %></p>
-                <p class="mt-2"><%= link_to "Add to flashcards", "#", class: "text-blue-500 bg-gray-100 outline p-1" %></p>
-              </div>
-              <div data-popper-arrow></div>
-            </div>
-          <% end %>
         </div>
       <% end %>
     </div>
