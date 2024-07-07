@@ -1,6 +1,6 @@
 module WordHelper
   def furigana(word)
-    return word.content unless cookies[:text_furigana].present?
+    return word.content unless cookies[:text_furigana] == "on"
 
     result = []
     content = word.content

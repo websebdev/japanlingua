@@ -12,15 +12,8 @@ class SituationsController < ApplicationController
   private
 
   def set_text_options
-    if params[:text_furigana] == "true"
-      cookies[:text_furigana] = true
-    else
-      cookies.delete(:text_furigana) if cookies[:text_furigana].present?
-    end
-    if params[:text_english] == "true"
-      cookies[:text_english] = true
-    else
-      cookies.delete(:text_english) if cookies[:text_english].present?
-    end
+    cookies[:text_furigana] = params[:text_furigana] if params[:text_furigana]
+    cookies[:text_english] = params[:text_english] if params[:text_english]
+    cookies[:text_japanese] = params[:text_japanese] if params[:text_japanese]
   end
 end
