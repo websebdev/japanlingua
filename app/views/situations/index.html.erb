@@ -1,5 +1,36 @@
-<% @situations.each do |situation| %>
-  <div>
-    <%= link_to situation.title, situation_path(situation) %>
-  </div>
-<% end %>
+<div class="bg-gray-100 min-h-screen">
+  <main class="container mx-auto px-4 py-8">
+    <h2 class="text-2xl font-semibold mb-6">Choose a Situation</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @situations.each do |situation| %>
+        <%= link_to situation_path(situation), class: "block" do %>
+          <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
+            <div class="h-40 bg-red-100 flex items-center justify-center">
+              <!-- Placeholder for situation image -->
+              <svg class="w-24 h-24 text-red-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+              </svg>
+            </div>
+            <div class="p-4">
+              <h3 class="text-lg font-semibold text-gray-800 mb-2"><%= situation.title %></h3>
+              <p class="text-sm text-gray-600 mb-2"><%= truncate(situation.description, length: 100) %></p>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-gray-500">
+                  Difficulty: <%= difficulty_label(situation.difficulty_level) %>
+                </span>
+                <span class="text-xs font-medium text-red-600">
+                  Learn more &rarr;
+                </span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </main>
+
+  <footer class="bg-gray-200 text-center py-4 mt-8">
+    <p class="text-sm text-gray-600">&copy; <%= Time.current.year %> JapanLingua. All rights reserved.</p>
+  </footer>
+</div>
