@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :situations, only: [ :index, :show ]
+  resources :flashcards, only: [ :index ]
 
   namespace :admin do
     resources :situations do
