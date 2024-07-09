@@ -10,7 +10,7 @@ class Admin::Situations::SentencesController < Admin::Situations::BaseController
 
   def destroy
     @sentence.destroy
-    redirect_to admin_situation_path(@situation), notice: 'Sentence was successfully deleted.'
+    redirect_to admin_situation_path(@situation), notice: "Sentence was successfully deleted."
   end
 
   private
