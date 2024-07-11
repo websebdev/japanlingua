@@ -20,4 +20,10 @@ Rails.application.routes.draw do
       resources :sentences, only: [ :create, :destroy ], module: :situations
     end
   end
+
+  get "signup", to: "users#new", as: "signup"
+  post "signup", to: "users#create"
+  get "signin", to: "sessions#new", as: "signin"
+  post "signin", to: "sessions#create"
+  delete "signout", to: "sessions#destroy", as: "signout"
 end
