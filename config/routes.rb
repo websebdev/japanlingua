@@ -12,7 +12,9 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "home#index"
 
-  resources :situations, only: [ :index, :show ]
+  resources :contexts, only: [ :index, :show ] do
+    resources :situations, only: [ :show ], module: :contexts
+  end
   resources :flashcards, only: [ :index ]
 
   namespace :admin do

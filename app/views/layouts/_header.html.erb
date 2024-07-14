@@ -8,11 +8,11 @@
           <%= link_to "Back to User Side", root_path, class: "mx-2 hover:text-gray-300" %>
         <% else %>
           <%= link_to "Admin", admin_contexts_path, class: "mx-2 hover:text-gray-300" %>
-          <%= link_to "Situations", situations_path, class: "mx-2 hover:text-gray-300" %>
+          <%= link_to "Contexts", contexts_path, class: "mx-2 hover:text-gray-300" %>
           <%= link_to "Flashcards", flashcards_path, class: "mx-2 hover:text-gray-300" %>
         <% end %>
       <% else %>
-        <%= link_to "Situations", situations_path, class: "mx-2 hover:text-gray-300" %>
+        <%= link_to "Contexts", contexts_path, class: "mx-2 hover:text-gray-300" %>
         <%= link_to "Flashcards", flashcards_path, class: "mx-2 hover:text-gray-300" %>
       <% end %>
       <% if Current.user.present? %>

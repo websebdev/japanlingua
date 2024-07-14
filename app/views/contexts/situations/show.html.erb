@@ -1,4 +1,6 @@
 <div class="container mx-auto px-4 py-8">
+  <%= render "contexts/breadcrumbs" %>
+
   <%= link_to "Turn Furigana #{cookies[:text_furigana] == "on" ? "off" : "on"}", {text_furigana: cookies[:text_furigana] == "on" ? "off" : "on"}, class: "text-blue-500 hover:underline", data: { turbo: false } %>
   <br>
   <%= link_to "Turn English #{cookies[:text_english] == "on" ? "off" : "on"}", {text_english: cookies[:text_english] == "on" ? "off" : "on"}, class: "text-blue-500 hover:underline", data: { turbo: false } %>
@@ -8,7 +10,7 @@
   <nav aria-label="Breadcrumb" class="mb-6">
     <ol class="flex items-center space-x-2">
       <li>
-        <%= link_to "Situations", situations_path, class: "text-blue-500 hover:underline" %>
+        <%= link_to "Situations", context_path(@situation.context), class: "text-blue-500 hover:underline" %>
       </li>
       <li>
         <span aria-current="page" class="text-gray-500"><%= @situation.title %></span>
@@ -46,7 +48,7 @@
           <div class="flex items-center justify-between mb-2">
             <div class="flex items-center flex-1">
               <%= image_tag sentence.character.avatar, class: "w-8 h-8 rounded-full mr-2 border-2 border-red-500 p-0.5", alt: "Avatar" %>
-              <span class="text-gray-500"><%= render sentence.character.name_word %></span>
+              <span class="text-gray-500"><%= render "words/word", word: sentence.character.name_word %></span>
             </div>
             <div>
               <button
@@ -69,7 +71,7 @@
           </div>
           <% if cookies[:text_japanese] == "on" %>
             <div class="flex-1">
-              <%= render sentence.words %>
+              <%= render partial: "words/word", collection: sentence.words, as: :word %>
             </div>
           <% end %>
           <% if cookies[:text_english] == "on" %>

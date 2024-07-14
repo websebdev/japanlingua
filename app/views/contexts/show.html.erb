@@ -1,10 +1,15 @@
 <div class="bg-gray-100 min-h-screen">
   <main class="container mx-auto px-4 py-8">
-    <h2 class="text-2xl font-semibold mb-6">Choose a Situation</h2>
+    <%= render "contexts/breadcrumbs" %>
+
+    <h2 class="text-2xl font-semibold mb-2"><%= @context.name %></h2>
+    <p class="text-gray-600 mb-6"><%= @context.description %></p>
+    
+    <h3 class="text-xl font-semibold mb-4">Situations in this Context</h3>
     
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-      <% @situations.each do |situation| %>
-        <%= link_to situation_path(situation), class: "block" do %>
+      <% @context.situations.each do |situation| %>
+        <%= link_to context_situation_path(situation.context, situation), class: "block" do %>
           <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
             <div class="h-40 bg-red-100 flex items-center justify-center">
               <!-- Placeholder for situation image -->
@@ -29,7 +34,6 @@
       <% end %>
     </div>
   </main>
-
   <footer class="bg-gray-200 text-center py-4 mt-8">
     <p class="text-sm text-gray-600">&copy; <%= Time.current.year %> JapanLingua. All rights reserved.</p>
   </footer>

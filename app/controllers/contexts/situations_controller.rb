@@ -1,4 +1,4 @@
-class SituationsController < ApplicationController
+class Contexts::SituationsController < Contexts::BaseController
   before_action :set_text_options, only: [ :show ]
 
   def index

@@ -1,0 +1,37 @@
+<div class="bg-gray-100 min-h-screen">
+  <main class="container mx-auto px-4 py-8">
+    <%= render "contexts/breadcrumbs" %>
+
+    <h2 class="text-2xl font-semibold mb-6">Choose a Context</h2>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% @contexts.each do |context| %>
+        <%= link_to context_path(context), class: "block" do %>
+          <div class="bg-white rounded-lg shadow-md hover:shadow-lg transition duration-300 overflow-hidden">
+            <div class="h-40 bg-blue-100 flex items-center justify-center">
+              <!-- Placeholder for context image -->
+              <svg class="w-24 h-24 text-blue-300" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path>
+              </svg>
+            </div>
+            <div class="p-4">
+              <h3 class="text-lg font-semibold text-gray-800 mb-2"><%= context.name %></h3>
+              <p class="text-sm text-gray-600 mb-2"><%= truncate(context.description, length: 100) %></p>
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-medium text-gray-500">
+                  <%= pluralize(context.situations.count, 'situation') %>
+                </span>
+                <span class="text-xs font-medium text-blue-600">
+                  Explore &rarr;
+                </span>
+              </div>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+  </main>
+  <footer class="bg-gray-200 text-center py-4 mt-8">
+    <p class="text-sm text-gray-600">&copy; <%= Time.current.year %> JapanLingua. All rights reserved.</p>
+  </footer>
+</div>
