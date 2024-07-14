@@ -1,4 +1,4 @@
-class Admin::SituationsController < Admin::BaseController
+class Admin::Contexts::SituationsController < Admin::Contexts::BaseController
   before_action :set_situation, only: [ :edit, :update, :destroy ]
 
   def new

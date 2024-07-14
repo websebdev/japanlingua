@@ -1,4 +1,4 @@
-class Admin::Situations::BaseController < ApplicationController
+class Admin::Contexts::Situations::BaseController < Admin::Contexts::BaseController
   before_action :set_situation
 
   private

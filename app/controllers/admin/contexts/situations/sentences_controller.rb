@@ -1,4 +1,4 @@
-class Admin::Situations::SentencesController < Admin::Situations::BaseController
+class Admin::Contexts::Situations::SentencesController < Admin::Contexts::Situations::BaseController
   before_action :set_sentence, only: [ :destroy ]
 
   def create

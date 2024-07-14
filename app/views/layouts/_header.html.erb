@@ -3,11 +3,11 @@
     <%= link_to "JapanLingua", root_path, class: "text-2xl font-bold" %>
     <div class="flex items-center">
       <% if Current.user&.admin? %>
-        <% if current_page?(controller: '/admin/situations') || current_page?(controller: '/admin/contexts') %>
+        <% if @admin_layout %>
           <%= link_to "Contexts", admin_contexts_path, class: "mx-2 hover:text-gray-300" %>
           <%= link_to "Back to User Side", root_path, class: "mx-2 hover:text-gray-300" %>
         <% else %>
-          <%= link_to "Admin", admin_situations_path, class: "mx-2 hover:text-gray-300" %>
+          <%= link_to "Admin", admin_contexts_path, class: "mx-2 hover:text-gray-300" %>
           <%= link_to "Situations", situations_path, class: "mx-2 hover:text-gray-300" %>
           <%= link_to "Flashcards", flashcards_path, class: "mx-2 hover:text-gray-300" %>
         <% end %>

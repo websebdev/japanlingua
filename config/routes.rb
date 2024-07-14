@@ -16,9 +16,11 @@ Rails.application.routes.draw do
   resources :flashcards, only: [ :index ]
 
   namespace :admin do
-    resources :contexts, only: [ :index, :show ]
-    resources :situations do
-      resources :sentences, only: [ :create, :destroy ], module: :situations
+    root "contexts#index"
+    resources :contexts, only: [ :index, :show ] do
+      resources :situations, module: :contexts do
+        resources :sentences, only: [ :create, :destroy ], module: :situations
+      end
     end
   end
 
