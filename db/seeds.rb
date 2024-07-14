@@ -7,6 +7,7 @@ def create_sentences_for_situation(situation, sentences_data)
       content: sentence_data['content']
     )
     sentence.generate_translation_and_words_using_ai!
+    sentence.generate_audio!
   end
 end
 

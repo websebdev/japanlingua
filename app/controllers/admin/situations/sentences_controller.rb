@@ -4,6 +4,7 @@ class Admin::Situations::SentencesController < Admin::Situations::BaseController
   def create
     @sentence = @situation.sentences.build(sentence_params)
     @sentence.generate_translation_and_words_using_ai!
+    @sentence.generate_audio!
 
     redirect_to admin_situation_path(@situation), notice: "Sentence was successfully created."
   end
