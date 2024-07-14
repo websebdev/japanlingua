@@ -1,0 +1,14 @@
+{
+  "name": "Daily essentials",
+  "situations": [
+    {
+      "title": "Grocery Shopping",
+      "description": "To be able to talk about your weekend.",
+      "difficulty_level": 1,
+      "sentences": [
+        {"character_id": 1, "content": "すみません、豆腐はどこにありますか。"},
+        {"character_id": 3, "content": "豆腐ですね。こちらです。"}
+      ]
+    }
+  ]
+}

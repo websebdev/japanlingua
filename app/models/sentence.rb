@@ -1,7 +1,8 @@
 class Sentence < ApplicationRecord
   CHARACTERS = [
     { id: 1, name: "武", hiragana_name: "たけし", romaji_name: "Takeshi", avatar: "boy_3.png" },
-    { id: 2, name: "エミリー", hiragana_name: "エミリー", romaji_name: "Emily", avatar: "girl_5.png" }
+    { id: 2, name: "リサ", hiragana_name: "リサ", romaji_name: "Risa", avatar: "girl_5.png" },
+    { id: 3, name: "スタッフ", hiragana_name: "スタッフ", romaji_name: "Staff", avatar: "boy_3.png" }
   ]
 
   belongs_to :situation

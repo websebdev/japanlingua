@@ -1,0 +1,27 @@
+{
+  "name": "Introductions",
+  "situations": [
+    {
+      "title": "The first time you've met a person",
+      "description": "Introduce yourself when you meet a new person.",
+      "difficulty_level": 1,
+      "sentences": [
+        {"character_id": 1, "content": "はじめまして。たけしです。よろしくお願いします。"},
+        {"character_id": 2, "content": "はじめまして。リサです。よろしくお願いします。"},
+        {"character_id": 1, "content": "出身はどこですか。"},
+        {"character_id": 2, "content": "アメリカです。"},
+        {"character_id": 1, "content": "へぇ〜、そうなんですね。アメリカ行ってみたいです。"}
+      ]
+    },
+    {
+      "title": "Talking about your hobby",
+      "description": "To be able to talk about your hobby.",
+      "difficulty_level": 1,
+      "sentences": [
+        {"character_id": 1, "content": "休みの日はよく何をしてますか。"},
+        {"character_id": 2, "content": "休みの日はYoutubeを見たり、映画をみたりしてます。たけしさんはどうですか？"},
+        {"character_id": 1, "content": "私は本を読むのが好きで、村上春樹の本をよく読んでいます。"}
+      ]
+    }
+  ]
+}

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
   resources :flashcards, only: [ :index ]
 
   namespace :admin do
+    resources :contexts, only: [ :index, :show ]
     resources :situations do
       resources :sentences, only: [ :create, :destroy ], module: :situations
     end

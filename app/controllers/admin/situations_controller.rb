@@ -60,6 +60,6 @@ class Admin::SituationsController < ApplicationController
   end
 
   def situation_params
-    params.require(:situation).permit(:title, :description, :difficulty_level)
+    params.require(:situation).permit(:title, :description, :difficulty_level, :context_id)
   end
 end
