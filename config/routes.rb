@@ -17,6 +17,8 @@ Rails.application.routes.draw do
   end
   resources :flashcards, only: [ :index ]
 
+  get "dashboard", to: "dashboard#index"
+
   namespace :admin do
     root "contexts#index"
     resources :contexts, only: [ :index, :show ] do
