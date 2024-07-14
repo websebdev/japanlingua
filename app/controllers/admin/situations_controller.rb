@@ -1,12 +1,5 @@
-class Admin::SituationsController < ApplicationController
-  before_action :set_situation, only: [ :show, :edit, :update, :destroy ]
-
-  def index
-    @situations = Situation.all.order(created_at: :desc)
-  end
-
-  def show
-  end
+class Admin::SituationsController < Admin::BaseController
+  before_action :set_situation, only: [ :edit, :update, :destroy ]
 
   def new
     @situation = Situation.new

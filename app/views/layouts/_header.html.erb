@@ -2,9 +2,19 @@
   <nav class="container mx-auto px-6 py-3 flex justify-between items-center">
     <%= link_to "JapanLingua", root_path, class: "text-2xl font-bold" %>
     <div class="flex items-center">
-      <%= link_to "Admin", admin_situations_path, class: "mx-2 hover:text-gray-300" %>
-      <%= link_to "Situations", situations_path, class: "mx-2 hover:text-gray-300" %>
-      <%= link_to "Flashcards", flashcards_path, class: "mx-2 hover:text-gray-300" %>
+      <% if Current.user&.admin? %>
+        <% if current_page?(controller: '/admin/situations') || current_page?(controller: '/admin/contexts') %>
+          <%= link_to "Contexts", admin_contexts_path, class: "mx-2 hover:text-gray-300" %>
+          <%= link_to "Back to User Side", root_path, class: "mx-2 hover:text-gray-300" %>
+        <% else %>
+          <%= link_to "Admin", admin_situations_path, class: "mx-2 hover:text-gray-300" %>
+          <%= link_to "Situations", situations_path, class: "mx-2 hover:text-gray-300" %>
+          <%= link_to "Flashcards", flashcards_path, class: "mx-2 hover:text-gray-300" %>
+        <% end %>
+      <% else %>
+        <%= link_to "Situations", situations_path, class: "mx-2 hover:text-gray-300" %>
+        <%= link_to "Flashcards", flashcards_path, class: "mx-2 hover:text-gray-300" %>
+      <% end %>
       <% if Current.user.present? %>
         <span class="mx-2"><%= Current.user.email %></span>
         <%= button_to "Sign Out", signout_path, method: :delete, class: "mx-2 bg-white text-red-600 px-4 py-2 rounded-full hover:bg-gray-200" %>

@@ -1,4 +1,4 @@
-class Admin::ContextsController < ApplicationController
+class Admin::ContextsController < Admin::BaseController
   def index
     @contexts = Context.all.order(:name)
   end

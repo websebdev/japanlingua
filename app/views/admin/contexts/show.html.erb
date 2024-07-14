@@ -1,13 +1,44 @@
-<h1 class="text-2xl font-bold mb-4"><%= @context.name %></h1>
-<p class="text-gray-600 mb-6"><%= @context.description %></p>
+<div class="bg-gray-100 min-h-screen">
+  <main class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-6">
+      <h2 class="text-2xl font-semibold"><%= @context.name %></h2>
+      <%= link_to "New Situation", new_admin_situation_path, class: "bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition duration-300", data: { turbo_frame: "new_situation" } %>
+    </div>
 
-<h2 class="text-xl font-semibold mb-4">Situations in this context:</h2>
-
-<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-  <% @situations.each do |situation| %>
-    <%= link_to edit_admin_situation_path(situation), class: "block p-4 bg-white shadow rounded-lg hover:shadow-md transition duration-300" do %>
-      <h3 class="text-lg font-semibold"><%= situation.title %></h3>
-      <p class="text-gray-600 mt-2"><%= truncate(situation.description, length: 100) %></p>
+    <% if notice.present? %>
+      <div id="notice" class="mb-4 bg-green-100 border-l-4 border-green-500 text-green-700 p-4 rounded" role="alert">
+        <p><%= notice %></p>
+      </div>
     <% end %>
-  <% end %>
+
+    <%= turbo_frame_tag "new_situation" %>
+
+    <div class="bg-white shadow-md rounded-lg overflow-hidden">
+      <div class="grid grid-cols-5 gap-4 px-6 py-3 bg-gray-50 text-sm font-medium text-gray-500 uppercase tracking-wider">
+        <div class="col-span-2">Title</div>
+        <div class="col-span-2">Description</div>
+        <div>Difficulty</div>
+      </div>
+      <div id="situations">
+        <%= render @situations %>
+      </div>
+    </div>
+  </main>
+
+  <footer class="bg-gray-200 text-center py-4 mt-8">
+    <p class="text-sm text-gray-600">&copy; <%= Time.current.year %> JapanLingua Admin. All rights reserved.</p>
+  </footer>
 </div>
+
+<%= javascript_tag do %>
+  document.addEventListener('turbo:load', () => {
+    const rows = document.querySelectorAll('[data-situation-id]');
+    rows.forEach(row => {
+      row.addEventListener('click', (event) => {
+        if (!event.target.closest('button')) {
+          window.location.href = row.dataset.editUrl;
+        }
+      });
+    });
+  });
+<% end %>
