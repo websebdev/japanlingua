@@ -1,6 +1,6 @@
 class ContextsController < ApplicationController
   def index
-    @contexts = Context.all
+    @contexts = Context.includes(:situations, :reviews, :words).all
   end
 
   def show
