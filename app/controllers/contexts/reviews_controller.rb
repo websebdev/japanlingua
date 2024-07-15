@@ -1,9 +1,16 @@
-class ReviewsController < ApplicationController
+class Contexts::ReviewsController < Contexts::BaseController
   before_action :require_login
 
   def index
-    @reviews = Current.user.reviews.where("next_review_date <= ?", Time.current.end_of_day).includes(:word, :context).order(:next_review_date)
-    @words = @reviews.map(&:word)
+    @reviews = Current.user.reviews
+      .where("next_review_date <= ?", Time.current.end_of_day)
+      .where(context: @context)
+      .includes(:word, :context)
+      .order(:next_review_date)
+
+    @reviews = @reviews.where(context: @context)
+
+    @words = @reviews.extract_associated(:word)
   end
 
   def update

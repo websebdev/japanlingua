@@ -9,11 +9,9 @@
         <% else %>
           <%= link_to "Admin", admin_contexts_path, class: "mx-2 hover:text-gray-300" %>
           <%= link_to "Contexts", contexts_path, class: "mx-2 hover:text-gray-300" %>
-          <%= link_to "Flashcards", flashcards_path, class: "mx-2 hover:text-gray-300" %>
         <% end %>
       <% else %>
         <%= link_to "Contexts", contexts_path, class: "mx-2 hover:text-gray-300" %>
-        <%= link_to "Flashcards", flashcards_path, class: "mx-2 hover:text-gray-300" %>
       <% end %>
       <% if Current.user.present? %>
         <span class="mx-2"><%= Current.user.email %></span>
