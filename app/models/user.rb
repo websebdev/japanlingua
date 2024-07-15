@@ -1,4 +1,8 @@
 class User < ApplicationRecord
+  has_many :reviews
+  has_many :words, through: :reviews
+  has_one :user_streak
+
   has_secure_password
 
   validates :email, presence: true, uniqueness: true, format: { with: URI::MailTo::EMAIL_REGEXP }
@@ -19,14 +23,16 @@ class User < ApplicationRecord
     2
   end
 
+  # def reviews_count
+  #   reviews.where("next_review_date <= ?", Time.current).count
+  # end
+
   def current_streak
-    # TODO
-    3
+    Current.user.user_streak.current_streak
   end
 
   def highest_streak
-    # TODO
-    4
+    Current.user.user_streak.max_streak
   end
 
   def recent_activities

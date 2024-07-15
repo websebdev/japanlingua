@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2024_07_14_054741) do
+ActiveRecord::Schema[8.0].define(version: 2024_07_14_235153) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -49,6 +49,20 @@ ActiveRecord::Schema[8.0].define(version: 2024_07_14_054741) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "reviews", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.bigint "word_id", null: false
+    t.bigint "context_id", null: false
+    t.datetime "next_review_date", null: false
+    t.float "ease_factor", default: 2.5, null: false
+    t.integer "interval", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["context_id"], name: "index_reviews_on_context_id"
+    t.index ["user_id"], name: "index_reviews_on_user_id"
+    t.index ["word_id"], name: "index_reviews_on_word_id"
+  end
+
   create_table "sentences", force: :cascade do |t|
     t.text "content"
     t.bigint "situation_id", null: false
@@ -70,12 +84,23 @@ ActiveRecord::Schema[8.0].define(version: 2024_07_14_054741) do
     t.index ["context_id"], name: "index_situations_on_context_id"
   end
 
+  create_table "user_streaks", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.integer "current_streak", default: 0, null: false
+    t.integer "max_streak", default: 0, null: false
+    t.date "last_activity_date", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_user_streaks_on_user_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email", null: false
     t.string "password_digest", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean "admin", default: false, null: false
+    t.integer "reviews_count"
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
@@ -92,7 +117,11 @@ ActiveRecord::Schema[8.0].define(version: 2024_07_14_054741) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "reviews", "contexts"
+  add_foreign_key "reviews", "users"
+  add_foreign_key "reviews", "words"
   add_foreign_key "sentences", "situations"
   add_foreign_key "situations", "contexts"
+  add_foreign_key "user_streaks", "users"
   add_foreign_key "words", "sentences"
 end

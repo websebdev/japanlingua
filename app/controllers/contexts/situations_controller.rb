@@ -6,7 +6,8 @@ class Contexts::SituationsController < Contexts::BaseController
   end
 
   def show
-    @situation = Situation.find(params[:id])
+    @situation = @context.situations.find(params[:id])
+    SrsSystem.new(Current.user).add_new_words(@situation) if Current.user
   end
 
   private

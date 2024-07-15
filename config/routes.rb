@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     resources :situations, only: [ :show ], module: :contexts
   end
   resources :flashcards, only: [ :index ]
+  resources :reviews, only: [ :index, :update ]
 
   get "dashboard", to: "dashboard#index"
 
