@@ -25,7 +25,6 @@ class Sentence < ApplicationRecord
         translation: word["translation"]
       )
     end
-    generate_audio
     save!
   end
 
