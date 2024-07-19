@@ -1,21 +1,21 @@
 <div class="container mx-auto px-4 py-8">
   <%= render "contexts/breadcrumbs" %>
   
-  <% if @words.present? %>
+  <% if @reviews.any? %>
     <div id="flashcard-container" data-controller="flashcard">
       <div data-flashcard-target="container" class="max-w-md mx-auto">
-        <% @words.each_with_index do |word, index| %>
-          <div class="flashcard-wrapper <%= index.zero? ? '' : 'hidden' %>" data-flashcard-target="card" data-review-id="<%= @reviews[index].id %>">
+        <% @reviews.each.with_index do |review, index| %>
+          <div class="flashcard-wrapper <%= index.zero? ? '' : 'hidden' %>" data-flashcard-target="card" data-review-path="<%= context_review_path(@context, review) %>">
             <div class="flashcard" data-action="click->flashcard#flipCard">
               <div class="flashcard-inner">
                 <div class="flashcard-front">
-                  <h2 class="text-3xl font-bold mb-2 text-center"><%= word.content %></h2>
-                  <p class="text-xl text-gray-600 text-center"><%= word.reading_hiragana %></p>
-                  <p class="text-lg text-gray-500 text-center"><%= word.reading_romaji %></p>
+                  <h2 class="text-3xl font-bold mb-2 text-center"><%= review.word.content %></h2>
+                  <p class="text-xl text-gray-600 text-center"><%= review.word.reading_hiragana %></p>
+                  <p class="text-lg text-gray-500 text-center"><%= review.word.reading_romaji %></p>
                 </div>
                 <div class="flashcard-back">
                   <h3 class="text-2xl font-semibold mb-2 text-center">Translation:</h3>
-                  <p class="text-xl text-gray-800 text-center"><%= word.translation %></p>
+                  <p class="text-xl text-gray-800 text-center"><%= review.word.translation %></p>
                 </div>
               </div>
             </div>

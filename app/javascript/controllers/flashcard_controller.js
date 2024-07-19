@@ -24,10 +24,10 @@ export default class extends Controller {
 
   async updateReview(known) {
     const currentCard = this.cardTargets[this.currentIndex]
-    const reviewId = currentCard.dataset.reviewId
+    const reviewPath = currentCard.dataset.reviewPath
 
     try {
-      const response = await fetch(`/reviews/${reviewId}`, {
+      const response = await fetch(reviewPath, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
