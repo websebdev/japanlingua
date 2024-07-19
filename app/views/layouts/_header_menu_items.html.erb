@@ -1,0 +1,22 @@
+<% link_class = local_assigns[:mobile] ? "block py-2" : "mx-2" %>
+<% link_class += " hover:text-gray-300" %>
+
+<% if Current.user&.admin? %>
+  <% if @admin_layout %>
+    <%= link_to "Contexts", admin_contexts_path, class: link_class %>
+    <%= link_to "Back to User Side", root_path, class: link_class %>
+  <% else %>
+    <%= link_to "Admin", admin_contexts_path, class: link_class %>
+    <%= link_to "Contexts", contexts_path, class: link_class %>
+  <% end %>
+<% else %>
+  <%= link_to "Contexts", contexts_path, class: link_class %>
+<% end %>
+
+<% if Current.user.present? %>
+  <span class="<%= local_assigns[:mobile] ? 'block py-2' : 'mx-2' %>"><%= Current.user.email %></span>
+  <%= button_to "Sign Out", signout_path, method: :delete, class: "#{link_class} bg-white text-red-600 px-4 py-2 rounded-full hover:bg-gray-200 mt-2 md:mt-0" %>
+<% else %>
+  <%= link_to "Sign In", signin_path, class: link_class %>
+  <%= link_to "Sign Up", signup_path, class: "#{link_class} bg-white text-red-600 px-4 py-2 rounded-full hover:bg-gray-200 mt-2 md:mt-0" %>
+<% end %>
