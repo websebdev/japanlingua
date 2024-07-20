@@ -10,7 +10,9 @@
     <%= link_to "Contexts", contexts_path, class: link_class %>
   <% end %>
 <% else %>
-  <%= link_to "Contexts", contexts_path, class: link_class %>
+  <% if Current.user %>
+    <%= link_to "Contexts", contexts_path, class: link_class %>
+  <% end %>
 <% end %>
 
 <% if Current.user.present? %>

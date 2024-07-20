@@ -1,4 +1,6 @@
 class ContextsController < ApplicationController
+  before_action :authenticate_user!
+
   def index
     @contexts = Context.includes(:situations, :reviews, :words).all
   end
