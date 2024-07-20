@@ -16,5 +16,6 @@ class Contexts::SituationsController < Contexts::BaseController
     cookies[:text_furigana] = params[:text_furigana] if params[:text_furigana]
     cookies[:text_english] = params[:text_english] if params[:text_english]
     cookies[:text_japanese] = params[:text_japanese] if params[:text_japanese]
+    cookies[:text_romaji] = params[:text_romaji] if params[:text_romaji]
   end
 end

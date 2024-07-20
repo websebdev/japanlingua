@@ -6,6 +6,8 @@
   <%= link_to "Turn English #{cookies[:text_english] == "on" ? "off" : "on"}", {text_english: cookies[:text_english] == "on" ? "off" : "on"}, class: "text-blue-500 hover:underline", data: { turbo: false } %>
   <br>
   <%= link_to "Turn Japanese #{cookies[:text_japanese] == "on" ? "off" : "on"}", {text_japanese: cookies[:text_japanese] == "on" ? "off" : "on"}, class: "text-blue-500 hover:underline", data: { turbo: false } %>
+  <br>
+  <%= link_to "Turn Romaji #{cookies[:text_romaji] == "on" ? "off" : "on"}", {text_romaji: cookies[:text_romaji] == "on" ? "off" : "on"}, class: "text-blue-500 hover:underline", data: { turbo: false } %>
 
   <nav aria-label="Breadcrumb" class="mb-6">
     <ol class="flex items-center space-x-2">
@@ -73,6 +75,9 @@
             <div class="flex-1">
               <%= render partial: "words/word", collection: sentence.words, as: :word %>
             </div>
+          <% end %>
+          <% if cookies[:text_romaji] == "on" %>
+            <div class="text-gray-600"><%= sentence.romaji %></div>
           <% end %>
           <% if cookies[:text_english] == "on" %>
             <div class="text-gray-600"><%= sentence.translation %></div>

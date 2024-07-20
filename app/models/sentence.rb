@@ -81,4 +81,8 @@ class Sentence < ApplicationRecord
     self.alignment_data = response_data["alignment"]
     save!
   end
+
+  def romaji
+    words.map { |word| word.reading_romaji }.join(" ")
+  end
 end
