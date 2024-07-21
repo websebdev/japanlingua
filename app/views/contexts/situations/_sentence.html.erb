@@ -1,0 +1,39 @@
+<div class="bg-gray-100 rounded-lg p-4 mb-4" data-audio-target="sentence">
+  <div class="flex items-center justify-between mb-2">
+    <div class="flex items-center flex-1">
+      <%= image_tag sentence.character.avatar, class: "w-8 h-8 rounded-full mr-2 border-2 border-red-500 p-0.5", alt: "Avatar" %>
+      <span class="text-gray-500"><%= render "words/word", word: sentence.character.name_word %></span>
+    </div>
+    <div>
+      <button
+        data-action="click->audio#playSentence"
+        data-audio-url-param="<%= rails_blob_url(sentence.audio) %>"
+        data-audio-target="playButton"
+        class="text-gray-800 font-bold rounded-full hover:border-black border-2"
+      >
+        <%= image_tag "icons/play_button.svg" %>
+      </button>
+      <button
+        data-action="click->audio#stopAllAudio"
+        data-audio-target="stopButton"
+        class="hidden text-gray-800 font-bold rounded-full hover:border-black border-2"
+      >
+        <%= image_tag "icons/stop_button.svg" %>
+      </button>
+    </div>
+  </div>
+
+  <div class="sentence-content">
+    <% if cookies[:text_japanese] == "on" %>
+      <div class="flex-1">
+        <%= render partial: "words/word", collection: sentence.words, as: :word %>
+      </div>
+    <% end %>
+    <% if cookies[:text_romaji] == "on" %>
+      <div class="text-gray-600"><%= sentence.romaji %></div>
+    <% end %>
+    <% if cookies[:text_english] == "on" %>
+      <div class="text-gray-600"><%= sentence.translation %></div>
+    <% end %>
+  </div>
+</div>

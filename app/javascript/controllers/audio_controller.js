@@ -1,67 +1,57 @@
-import { Controller } from "@hotwired/stimulus";
+import { Controller } from "@hotwired/stimulus"
 
 export default class extends Controller {
-  static targets = ["playButton", "stopButton", "sentence"];
+  static targets = ["playButton", "stopButton", "sentence"]
 
   connect() {
-    this.audioPlayers = [];
+    this.audioPlayers = []
   }
 
   async playAll(event) {
-    this.stopAllAudio();
+    this.stopAllAudio()
     for (let i = 0; i < this.playButtonTargets.length; i++) {
-      const button = this.playButtonTargets[i];
-      await this.playSentence({ currentTarget: button });
+      const button = this.playButtonTargets[i]
+      await this.playSentence({ currentTarget: button })
     }
   }
 
   async playSentence(event) {
-    this.stopAllAudio();
-    const button = event.currentTarget;
-    this.togglePlayStopButtons(button);
-    await this.playAudio(button.dataset.audioUrlParam);
-    this.hideAllStopButtons();
+    this.stopAllAudio()
+    const button = event.currentTarget
+    this.togglePlayStopButtons(button)
+    await this.playAudio(button.dataset.audioUrlParam)
+    this.hideAllStopButtons()
   }
 
   playAudio(url) {
     return new Promise((resolve) => {
-      const audio = new Audio(url);
-      audio.play();
-      this.audioPlayers.push(audio);
+      const audio = new Audio(url)
+      audio.play()
+      this.audioPlayers.push(audio)
       audio.addEventListener("ended", () => {
-        resolve();
-      });
-    });
+        resolve()
+      })
+    })
   }
 
   stopAllAudio() {
-    this.audioPlayers.forEach((audio) => audio.pause());
-    this.audioPlayers = [];
-    this.hideAllStopButtons();
+    this.audioPlayers.forEach((audio) => audio.pause())
+    this.audioPlayers = []
+    this.hideAllStopButtons()
   }
 
   togglePlayStopButtons(button) {
-    const playButton = button.parentElement.querySelector("[data-audio-target='playButton']");
-    const stopButton = button.parentElement.querySelector("[data-audio-target='stopButton']");
+    const playButton = button.parentElement.querySelector("[data-audio-target='playButton']")
+    const stopButton = button.parentElement.querySelector("[data-audio-target='stopButton']")
   
     if (playButton && stopButton) {
-      playButton.classList.toggle("hidden");
-      stopButton.classList.toggle("hidden");
+      playButton.classList.toggle("hidden")
+      stopButton.classList.toggle("hidden")
     }
   }
 
   hideAllStopButtons() {
-    this.playButtonTargets.forEach((button) => {
-      this.stopButtonTargets.forEach((stopButton) => stopButton.classList.add("hidden"));
-      this.playButtonTargets.forEach((stopButton) => stopButton.classList.remove("hidden"));
-    });
-  }
-
-  get playButtonTargets() {
-    return this.targets.findAll("playButton");
-  }
-
-  get sentenceTargets() {
-    return this.targets.findAll("sentence");
+    this.stopButtonTargets.forEach((stopButton) => stopButton.classList.add("hidden"))
+    this.playButtonTargets.forEach((playButton) => playButton.classList.remove("hidden"))
   }
 }

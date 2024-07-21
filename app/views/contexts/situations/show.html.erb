@@ -1,76 +1,52 @@
-<div class="container mx-auto px-4 py-8">
+<div class="container mx-auto px-4 py-8" 
+     data-controller="situation" 
+     data-situation-current-index-value="<%= @current_sentence_index %>"
+     data-situation-total-sentences-value="<%= @sentences.length %>">
   <%= render "contexts/breadcrumbs" %>
 
-  <%= link_to "Turn Furigana #{cookies[:text_furigana] == "on" ? "off" : "on"}", {text_furigana: cookies[:text_furigana] == "on" ? "off" : "on"}, class: "text-blue-500 hover:underline", data: { turbo: false } %>
-  <br>
-  <%= link_to "Turn English #{cookies[:text_english] == "on" ? "off" : "on"}", {text_english: cookies[:text_english] == "on" ? "off" : "on"}, class: "text-blue-500 hover:underline", data: { turbo: false } %>
-  <br>
-  <%= link_to "Turn Japanese #{cookies[:text_japanese] == "on" ? "off" : "on"}", {text_japanese: cookies[:text_japanese] == "on" ? "off" : "on"}, class: "text-blue-500 hover:underline", data: { turbo: false } %>
-  <br>
-  <%= link_to "Turn Romaji #{cookies[:text_romaji] == "on" ? "off" : "on"}", {text_romaji: cookies[:text_romaji] == "on" ? "off" : "on"}, class: "text-blue-500 hover:underline", data: { turbo: false } %>
-
-  <nav aria-label="Breadcrumb" class="mb-6">
-    <ol class="flex items-center space-x-2">
-      <li>
-        <%= link_to "Situations", context_path(@situation.context), class: "text-blue-500 hover:underline" %>
-      </li>
-      <li>
-        <span aria-current="page" class="text-gray-500"><%= @situation.title %></span>
-      </li>
-    </ol>
-  </nav>
-
   <div class="bg-white shadow-md rounded-lg p-6" data-controller="audio">
-    <div class="flex items-center justify-between mb-6">
-      <div>
-        <button
-          data-action="click->audio#playAll"
-          class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mr-4"
-        >
-          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M8 5v14l11-7L8 5z" fill="currentColor" />
-          </svg>
-          Play All
-        </button>
-        <button
-          data-action="click->audio#stopAllAudio"
-          class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mr-4"
-        >
-          <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M6 6h12v12H6V6z" fill="currentColor" />
-          </svg>
-          Stop All
-        </button>
-      </div>
-    </div>
-
-    <div data-controller="popover">
-      <% @situation.sentences.each do |sentence| %>
-        <div class="bg-gray-100 rounded-lg p-4 mb-4" data-audio-target="sentence">
-          <div class="flex items-center justify-between mb-2">
-            <div class="flex items-center flex-1">
-              <%= image_tag sentence.character.avatar, class: "w-8 h-8 rounded-full mr-2 border-2 border-red-500 p-0.5", alt: "Avatar" %>
-              <span class="text-gray-500"><%= render "words/word", word: sentence.character.name_word %></span>
-            </div>
-            <div>
-              <button
-                data-action="click->audio#playSentence"
-                data-audio-url-param="<%= rails_blob_url(sentence.audio) %>"
-                data-audio-target="playButton"
-                class="text-gray-800 font-bold rounded-full hover:border-black border-2"
-              >
-                <%= image_tag "icons/play_button.svg" %>
-              </button>
-              <button
-                data-action="click->audio#stopAllAudio"
-                data-audio-url-param="<%= rails_blob_url(sentence.audio) %>"
-                data-audio-target="stopButton"
-                class="hidden text-gray-800 font-bold rounded-full hover:border-black border-2"
-              >
-                <%= image_tag "icons/stop_button.svg" %>
-              </button>
-            </div>
+    <% @sentences.each_with_index do |sentence, index| %>
+      <div class="sentence-card mb-4 <%= index == @current_sentence_index ? '' : 'hidden' %>" data-situation-target="sentenceCard">
+        <div class="flex items-center justify-between mb-2">
+          <div class="flex items-center flex-1">
+            <%= image_tag sentence.character.avatar, class: "w-8 h-8 rounded-full mr-2 border-2 border-red-500 p-0.5", alt: "Avatar" %>
+            <span class="text-gray-500"><%= render "words/word", word: sentence.character.name_word %></span>
           </div>
+          <div>
+            <button
+              data-action="click->audio#playSentence"
+              data-audio-url-param="<%= rails_blob_url(sentence.audio) %>"
+              data-audio-target="playButton"
+              class="text-gray-800 font-bold rounded-full hover:border-black border-2"
+            >
+              <%= image_tag "icons/play_button.svg" %>
+            </button>
+            <button
+              data-action="click->audio#stopAllAudio"
+              data-audio-target="stopButton"
+              class="hidden text-gray-800 font-bold rounded-full hover:border-black border-2"
+            >
+              <%= image_tag "icons/stop_button.svg" %>
+            </button>
+          </div>
+        </div>
+
+        <div data-situation-target="textContent" class="hidden">
+          <div class="text-options mb-4">
+            <%= form_tag(context_situation_path(@context, @situation), method: :get, data: { turbo_frame: "_top" }) do %>
+              <%= hidden_field_tag :sentence_index, index %>
+              <%= hidden_field_tag :show_text, true %>
+              <%= check_box_tag :text_japanese, "on", cookies[:text_japanese] == "on", onchange: "this.form.submit()" %>
+              <%= label_tag :text_japanese, "Japanese" %>
+              <%= check_box_tag :text_romaji, "on", cookies[:text_romaji] == "on", onchange: "this.form.submit()" %>
+              <%= label_tag :text_romaji, "Romaji" %>
+              <%= check_box_tag :text_furigana, "on", cookies[:text_furigana] == "on", onchange: "this.form.submit()" %>
+              <%= label_tag :text_furigana, "Furigana" %>
+              <%= check_box_tag :text_english, "on", cookies[:text_english] == "on", onchange: "this.form.submit()" %>
+              <%= label_tag :text_english, "English" %>
+            <% end %>
+          </div>
+
           <% if cookies[:text_japanese] == "on" %>
             <div class="flex-1">
               <%= render partial: "words/word", collection: sentence.words, as: :word %>
@@ -83,22 +59,24 @@
             <div class="text-gray-600"><%= sentence.translation %></div>
           <% end %>
         </div>
-      <% end %>
-    </div>
+      </div>
+    <% end %>
 
-    <nav class="inline-flex rounded-md shadow-sm" aria-label="Pagination">
-      <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-        <span class="sr-only">Previous</span>
-        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path fill-rule="evenodd" d="M12.79 5.23a.75.75 0 01-.02 1.06L8.832 10l3.938 3.71a.75.75 0 11-1.04 1.08l-4.5-4.25a.75.75 0 010-1.08l4.5-4.25a.75.75 0 011.06.02z" clip-rule="evenodd" />
-        </svg>
-      </a>
-      <a href="#" class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
-        <span class="sr-only">Next</span>
-        <svg class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-          <path fill-rule="evenodd" d="M7.21 14.77a.75.75 0 01.02-1.06L11.168 10 7.23 6.29a.75.75 0 111.04-1.08l4.5 4.25a.75.75 0 010 1.08l-4.5 4.25a.75.75 0 01-1.06-.02z" clip-rule="evenodd" />
-        </svg>
-      </a>
-    </nav>
+    <button
+      data-situation-target="textToggle"
+      data-action="click->situation#toggleText"
+      class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 inline-block"
+    >
+      Show text
+    </button>
+
+    <%= link_to "Next", 
+                context_situation_path(@context, @situation, sentence_index: @current_sentence_index + 1),
+                class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 inline-block hidden",
+                data: { 
+                  situation_target: "nextButton",
+                  action: "click->situation#next",
+                  all_sentences_url: context_situation_path(@context, @situation, show_all: true)
+                } %>
   </div>
 </div>
