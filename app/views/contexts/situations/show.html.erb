@@ -1,5 +1,5 @@
-<div class="container mx-auto px-4 py-8" 
-     data-controller="situation" 
+<div class="container mx-auto px-4 py-8"
+     data-controller="situation"
      data-situation-current-index-value="<%= @current_sentence_index %>"
      data-situation-total-sentences-value="<%= @sentences.length %>">
   <%= render "contexts/breadcrumbs" %>
@@ -65,15 +65,15 @@
     <button
       data-situation-target="textToggle"
       data-action="click->situation#toggleText"
-      class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 inline-block"
+      class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-4 inline-block"
     >
       Show text
     </button>
 
-    <%= link_to "Next", 
+    <%= link_to "Next",
                 context_situation_path(@context, @situation, sentence_index: @current_sentence_index + 1),
-                class: "bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded mt-4 inline-block hidden",
-                data: { 
+                class: "bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded mt-4 inline-block hidden",
+                data: {
                   situation_target: "nextButton",
                   action: "click->situation#next",
                   all_sentences_url: context_situation_path(@context, @situation, show_all: true)
