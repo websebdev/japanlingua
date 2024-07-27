@@ -1,5 +1,6 @@
 {
   "name": "Introductions",
+  "icon": "handshake.svg",
   "situations": [
     {
       "title": "The first time you've met a person",
