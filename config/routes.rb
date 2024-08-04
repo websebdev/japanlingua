@@ -13,7 +13,9 @@ Rails.application.routes.draw do
   root "home#index"
 
   resources :contexts, only: [ :index, :show ] do
-    resources :situations, only: [ :show ], module: :contexts
+    resources :situations, only: [ :show ], module: :contexts do
+      resources :sentences, only: [ :show ], module: :situations
+    end
     resources :reviews, only: [ :index, :update ], module: :contexts
   end
 

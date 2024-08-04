@@ -8,14 +8,8 @@ class Contexts::SituationsController < Contexts::BaseController
   def show
     @situation = @context.situations.find(params[:id])
     @sentences = @situation.sentences
-    @current_sentence_index = params[:sentence_index]&.to_i || 0
-    @show_all = params[:show_all] == "true"
 
     SrsSystem.new(Current.user).add_new_words(@situation) if Current.user
-
-    if @show_all
-      render "show_all"
-    end
   end
 
   private

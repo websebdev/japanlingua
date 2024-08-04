@@ -1,0 +1,64 @@
+<div class="bg-gray-100 min-h-screen">
+  <div class="container mx-auto px-4 py-8 max-w-2xl">
+    <%= render "contexts/breadcrumbs" %>
+    
+    <div class="mt-8" data-controller="audio">
+      <div class="sentence-card flex flex-col items-center" data-controller="sentence">
+        <%= image_tag @sentence.character.avatar, class: "w-24 h-24 mb-6", alt: "Man avatar" %>
+        
+        <div class="flex space-x-4 mb-6 w-full max-w-sm">
+          <button
+            data-action="click->audio#playSentence"
+            data-audio-url-param="<%= rails_blob_url(@sentence.audio) %>"
+            data-audio-target="playButton"
+            class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full flex-1"
+          >
+            PLAY
+          </button>
+          <button
+            data-action="click->sentence#toggleText"
+            data-sentence-target-id-param="<%= dom_id(@sentence, "text") %>"
+            class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-8 rounded-full flex-1"
+          >
+            SHOW TEXT
+          </button>
+        </div>
+        
+        <div class="hidden bg-white w-full p-6 rounded-lg shadow-md" id="<%= dom_id(@sentence, "text") %>">
+          <div class="text-options mb-4">
+            <%= form_tag(context_situation_path(@context, @situation), method: :get, data: { turbo_frame: "_top" }) do %>
+              <%= check_box_tag :text_japanese, "on", cookies[:text_japanese] == "on", onchange: "this.form.submit()" %>
+              <%= label_tag :text_japanese, "Japanese" %>
+              <%= check_box_tag :text_romaji, "on", cookies[:text_romaji] == "on", onchange: "this.form.submit()" %>
+              <%= label_tag :text_romaji, "Romaji" %>
+              <%= check_box_tag :text_furigana, "on", cookies[:text_furigana] == "on", onchange: "this.form.submit()" %>
+              <%= label_tag :text_furigana, "Furigana" %>
+              <%= check_box_tag :text_english, "on", cookies[:text_english] == "on", onchange: "this.form.submit()" %>
+              <%= label_tag :text_english, "English" %>
+            <% end %>
+          </div>
+
+          <% if cookies[:text_japanese] == "on" %>
+            <div class="flex-1">
+              <%= render partial: "words/word", collection: @sentence.words, as: :word %>
+            </div>
+          <% end %>
+          <% if cookies[:text_romaji] == "on" %>
+            <div class="text-gray-600"><%= @sentence.romaji %></div>
+          <% end %>
+          <% if cookies[:text_english] == "on" %>
+            <div class="text-gray-600"><%= @sentence.translation %></div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+    
+    <div class="flex justify-center mt-8">
+      <% if @next_sentence %>
+        <%= link_to "NEXT", context_situation_sentence_path(@context, @situation, @next_sentence), class: "bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-12 rounded-full" %>
+      <% else %>
+        <%= link_to "FINISH", context_situation_path(@context, @situation), class: "bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-12 rounded-full" %>
+      <% end %>
+    </div>
+  </div>
+</div>

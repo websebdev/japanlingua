@@ -1,8 +1,8 @@
 class Sentence < ApplicationRecord
   CHARACTERS = [
-    { id: 1, name: "武", hiragana_name: "たけし", romaji_name: "Takeshi", avatar: "boy_3.png", voice_id: "flq6f7yk4E4fJM5XTYuZ" }, # Voice: Michael
-    { id: 2, name: "リサ", hiragana_name: "リサ", romaji_name: "Risa", avatar: "girl_5.png", voice_id: "MF3mGyEYCl7XYWbV9V6O" }, # Voice: Elli
-    { id: 3, name: "スタッフ", hiragana_name: "スタッフ", romaji_name: "Staff", avatar: "boy_3.png", voice_id: "5Q0t7uMcjvnagumLfvZi" } # Voice : Paul
+    { id: 1, name: "武", hiragana_name: "たけし", romaji_name: "Takeshi", avatar: "man_1.svg", voice_id: "flq6f7yk4E4fJM5XTYuZ" }, # Voice: Michael
+    { id: 2, name: "リサ", hiragana_name: "リサ", romaji_name: "Risa", avatar: "woman.jpeg", voice_id: "MF3mGyEYCl7XYWbV9V6O" }, # Voice: Elli
+    { id: 3, name: "スタッフ", hiragana_name: "スタッフ", romaji_name: "Staff", avatar: "woman_staff.jpeg", voice_id: "5Q0t7uMcjvnagumLfvZi" } # Voice : Paul
   ]
 
   belongs_to :situation
