@@ -2,13 +2,13 @@
   <%= render "contexts/breadcrumbs" %>
   
   <% if @reviews.any? %>
-    <div id="flashcard-container" data-controller="flashcard">
+    <div data-controller="flashcard">
       <div data-flashcard-target="container" class="max-w-md mx-auto">
         <% @reviews.each.with_index do |review, index| %>
-          <div class="flashcard-wrapper <%= index.zero? ? '' : 'hidden' %>" data-flashcard-target="card" data-review-path="<%= context_review_path(@context, review) %>">
-            <div class="flashcard" data-action="click->flashcard#flipCard">
+          <div class="<%= index.zero? ? '' : 'hidden' %>" data-flashcard-target="card" data-review-path="<%= context_review_path(@context, review) %>">
+            <div data-action="click->flashcard#flipCard" style="height: 300px;">
               <div class="flashcard-inner">
-                <div class="flashcard-front">
+                <div class="flashcard-front bg-red-100">
                   <h2 class="text-3xl font-bold mb-2 text-center"><%= review.word.content %></h2>
                   <p class="text-xl text-gray-600 text-center"><%= review.word.reading_hiragana %></p>
                   <p class="text-lg text-gray-500 text-center"><%= review.word.reading_romaji %></p>
@@ -22,11 +22,11 @@
           </div>
         <% end %>
         
-        <div class="mt-6 flex justify-between">
-          <button data-action="click->flashcard#markUnknown" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
+        <div class="mt-6 flex justify-center space-x-4">
+          <button data-action="click->flashcard#markUnknown" class="bg-white hover:bg-gray-100 text-red-500 font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 border border-black">
             I don't know
           </button>
-          <button data-action="click->flashcard#markKnown" class="bg-green-500 hover:bg-green-600 text-white font-bold py-3 px-6 rounded-lg transition duration-300 ease-in-out transform hover:-translate-y-1">
+          <button data-action="click->flashcard#markKnown" class="bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full transition duration-300 ease-in-out transform hover:-translate-y-1 border border-black">
             I know
           </button>
         </div>
