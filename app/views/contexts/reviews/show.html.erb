@@ -1,0 +1,28 @@
+<div class="bg-gray-100 min-h-screen flex flex-col items-center">
+  <div class="container mx-auto px-4 py-8">
+    <%= render "contexts/breadcrumbs" %>
+
+    <div class="flashcard max-w-md h-40 min-h-60 mx-auto" data-controller="flashcard">
+      <div class="flashcard-inner" data-action="click->flashcard#flipCard">
+        <div class="flashcard-front bg-red-100 p-4">
+          <h2 class="text-3xl font-bold mb-2 text-center"><%= @review.word.content %></h2>
+          <p class="text-xl text-gray-600 text-center"><%= @review.word.reading_hiragana %></p>
+          <p class="text-lg text-gray-500 text-center"><%= @review.word.reading_romaji %></p>
+        </div>
+        <div class="flashcard-back bg-red-100 p-4">
+          <h3 class="text-2xl font-semibold mb-2 text-center">Translation:</h3>
+          <p class="text-xl text-gray-800 text-center"><%= @review.word.translation %></p>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 flex justify-center space-x-4">
+      <%= button_to "Hard", context_review_path(@context, @review, known: false), method: :patch, class: "bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-6 rounded-full transition duration-300" %>
+      <%= button_to "Easy", context_review_path(@context, @review, known: true), method: :patch, class: "bg-white hover:bg-gray-100 text-red-500 font-bold py-3 px-6 rounded-full border border-black" %>
+    </div>
+    
+    <div class="mt-6 text-center">
+      <p class="text-gray-600 text-lg" data-flashcard-target="progress"></p>
+    </div>
+  </div>
+</div>

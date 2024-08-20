@@ -8,21 +8,24 @@ class Contexts::ReviewsController < Contexts::BaseController
       .includes(:word, :context)
       .order(:next_review_date)
 
-    @reviews = @reviews.where(context: @context)
+    if @reviews.first
+      redirect_to context_review_path(@context, @reviews.first)
+    else
+      redirect_to context_path(@context), notice: "No reviews due."
+    end
+  end
 
-    @words = @reviews.extract_associated(:word)
+  def show
+    @review = Current.user.reviews.find(params[:id])
   end
 
   def update
     @review = Current.user.reviews.find(params[:id])
-    if @review
-      known = ActiveModel::Type::Boolean.new.cast(params[:known])
-      srs_service = SrsSystem.new(Current.user)
-      srs_service.process_review(@review, known)
-      render json: { success: true, next_review_date: @review.next_review_date }
-    else
-      render json: { success: false, error: "Review not found" }, status: :not_found
-    end
+    known = ActiveModel::Type::Boolean.new.cast(params[:known])
+    srs_service = SrsSystem.new(Current.user)
+    srs_service.process_review(@review, known)
+
+    redirect_to context_reviews_path(@context)
   end
 
   private

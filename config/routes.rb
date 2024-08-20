@@ -16,7 +16,7 @@ Rails.application.routes.draw do
     resources :situations, only: [ :show ], module: :contexts do
       resources :sentences, only: [ :show ], module: :situations
     end
-    resources :reviews, only: [ :index, :update ], module: :contexts
+    resources :reviews, only: [ :index, :show, :update ], module: :contexts
   end
 
   get "dashboard", to: "dashboard#index"
