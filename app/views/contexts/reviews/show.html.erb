@@ -6,7 +6,9 @@
       <div class="flashcard-inner" data-action="click->flashcard#flipCard">
         <div class="flashcard-front bg-red-100 p-4">
           <h2 class="text-3xl font-bold mb-2 text-center"><%= @review.word.content %></h2>
-          <p class="text-xl text-gray-600 text-center"><%= @review.word.reading_hiragana %></p>
+          <% if @review.word.reading_hiragana != @review.word.content %>
+            <p class="text-xl text-gray-600 text-center"><%= @review.word.reading_hiragana %></p>
+          <% end %>
           <p class="text-lg text-gray-500 text-center"><%= @review.word.reading_romaji %></p>
         </div>
         <div class="flashcard-back bg-red-100 p-4">
